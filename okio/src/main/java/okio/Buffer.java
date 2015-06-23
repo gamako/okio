@@ -19,6 +19,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -576,10 +577,21 @@ public final class Buffer implements BufferedSource, BufferedSink, Cloneable {
     Segment s = head;
     if (s.pos + byteCount > s.limit) {
       // If the string spans multiple segments, delegate to readBytes().
-      return new String(readByteArray(byteCount), charset);
+      try {
+        return new String(readByteArray(byteCount), charset.name());
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+        return new String(readByteArray(byteCount));
+      }
     }
 
-    String result = new String(s.data, s.pos, (int) byteCount, charset);
+    String result = null;
+    try {
+      result = new String(s.data, s.pos, (int) byteCount, charset.name());
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+      result = new String(s.data, s.pos, (int) byteCount);
+    }
     s.pos += byteCount;
     size -= byteCount;
 

@@ -67,19 +67,19 @@ public final class OkioTest {
     source.close();
   }
 
-  @Test public void readWritePath() throws Exception {
-    Path path = temporaryFolder.newFile().toPath();
+  // @Test public void readWritePath() throws Exception {
+  //   Path path = temporaryFolder.newFile().toPath();
 
-    BufferedSink sink = Okio.buffer(Okio.sink(path));
-    sink.writeUtf8("Hello, java.nio file!");
-    sink.close();
-    assertTrue(Files.exists(path));
-    assertEquals(21, Files.size(path));
+  //   BufferedSink sink = Okio.buffer(Okio.sink(path));
+  //   sink.writeUtf8("Hello, java.nio file!");
+  //   sink.close();
+  //   assertTrue(Files.exists(path));
+  //   assertEquals(21, Files.size(path));
 
-    BufferedSource source = Okio.buffer(Okio.source(path));
-    assertEquals("Hello, java.nio file!", source.readUtf8());
-    source.close();
-  }
+  //   BufferedSource source = Okio.buffer(Okio.source(path));
+  //   assertEquals("Hello, java.nio file!", source.readUtf8());
+  //   source.close();
+  // }
 
   @Test public void sinkFromOutputStream() throws Exception {
     Buffer data = new Buffer();
